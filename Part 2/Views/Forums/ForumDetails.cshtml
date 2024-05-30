@@ -4,57 +4,59 @@
     ViewData["Title"] = "Forum Details";
 }
 
-<h1>@Model.Forum.Title</h1>
-<p>@Model.Forum.Description</p>
+<div class="main-content">
+    <h1>@Model.Forum.Title</h1>
+    <p>@Model.Forum.Description</p>
 
-<h2>Posts</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Author</th>
-            <th>Created At</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var post in Model.Posts)
-        {
+    <h2>Posts</h2>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@post.Title</td>
-                <td>@post.Content</td>
-                <td>@post.User.Name</td>
-                <td>@post.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    <a asp-action="PostDetails" asp-route-id="@post.Id" class="btn btn-info">View</a>
-                    @if (User.IsInRole("Employee"))
-                    {
-                        <form asp-action="DeletePost" method="post" style="display:inline;">
-                            <input type="hidden" name="postId" value="@post.Id" />
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    }
-                </td>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Author</th>
+                <th>Created At</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var post in Model.Posts)
+            {
+                <tr>
+                    <td>@post.Title</td>
+                    <td>@post.Content</td>
+                    <td>@post.User.Name</td>
+                    <td>@post.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <a asp-action="PostDetails" asp-route-id="@post.Id" class="btn btn-info">View</a>
+                        @if (User.IsInRole("Employee"))
+                        {
+                            <form asp-action="DeletePost" method="post" style="display:inline;">
+                                <input type="hidden" name="postId" value="@post.Id" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<h2>Create a New Post</h2>
-<form asp-action="CreatePost" method="post">
-    <input type="hidden" name="forumId" value="@Model.Forum.Id" />
-    <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="content">Content</label>
-        <textarea id="content" name="content" class="form-control"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <h2>Create a New Post</h2>
+    <form asp-action="CreatePost" method="post">
+        <input type="hidden" name="forumId" value="@Model.Forum.Id" />
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea id="content" name="content" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
-<div>
-    <a asp-action="Index" class="btn btn-primary">Back to Forums</a>
+    <div>
+        <a asp-action="Index" class="btn btn-primary">Back to Forums</a>
+    </div>
 </div>

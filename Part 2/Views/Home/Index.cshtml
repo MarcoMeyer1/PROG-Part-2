@@ -2,31 +2,126 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="main-content text-center">
     <h1 class="display-4">Welcome to Agri-Energy Connect</h1>
-    <p class="lead">Your platform for integrating renewable energy and sustainable agriculture.</p>
+    <p class="lead">Your platform for integrating renewable energy and sustainable agriculture. Agri-Energy Connect aims to revolutionize the agricultural sector by incorporating modern renewable energy solutions. Our platform facilitates the integration of sustainable farming practices and green energy technologies, helping farmers to improve productivity, reduce costs, and promote environmental stewardship. By providing access to a marketplace of green energy products, educational resources, and project collaboration opportunities, Agri-Energy Connect is dedicated to fostering a sustainable and innovative agricultural community.</p>
     <hr class="my-4" />
-    <p>
+
+    
         @if (User.Identity.IsAuthenticated)
         {
             @if (User.IsInRole("Farmer"))
             {
-                <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Create", "Product")" role="button">Add Product</a>
-                <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Index", "Product")" role="button">View My Products</a>
+                <div class="section">
+                    <h2>Add Product</h2>
+                    <p>As a farmer, you can contribute to our marketplace by adding your products. This helps you reach a wider audience and enables others to benefit from your sustainable farming practices.</p>
+                    <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Create", "Product")" role="button">Add Product</a>
+                </div>
+                <div class="section">
+                    <h2>View My Products</h2>
+                    <p>Manage and keep track of your products in one place. Easily view, edit, or update your products to ensure they meet the needs of potential buyers.</p>
+                    <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Index", "Product")" role="button">View My Products</a>
+                </div>
             }
             else if (User.IsInRole("Employee"))
             {
-                <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Create", "Farmer")" role="button">Add Farmer</a>
-                <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Index", "Farmer")" role="button">View Farmers</a>
-                <a class="btn btn-info btn-lg m-2" href="@Url.Action("AllProducts", "Product")" role="button">View All Products</a>
-                <a class="btn btn-warning btn-lg m-2" href="@Url.Action("FilterProducts", "Product")" role="button">Filter Products</a>
+                <div class="section">
+                    <h2>Add Farmer</h2>
+                    <p>Employees can add new farmers to the platform, helping to expand our community and bringing more diverse products and practices to the marketplace.</p>
+                    <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Create", "Farmer")" role="button">Add Farmer</a>
+                </div>
+                <div class="section">
+                    <h2>View Farmers</h2>
+                    <p>Browse through the list of farmers registered on our platform. Get to know their contributions and connect with them for potential collaborations.</p>
+                    <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Index", "Farmer")" role="button">View Farmers</a>
+                </div>
+                <div class="section">
+                    <h2>View All Products</h2>
+                    <p>Employees have the ability to view all products available on the marketplace. This helps in monitoring the inventory and ensuring the quality of products listed.</p>
+                    <a class="btn btn-info btn-lg m-2" href="@Url.Action("AllProducts", "Product")" role="button">View All Products</a>
+                </div>
+                <div class="section">
+                    <h2>Filter Products</h2>
+                    <p>Use advanced filters to find specific products based on your needs. Whether you are looking for a particular category or a product within a certain price range, our filtering options make it easy.</p>
+                    <a class="btn btn-warning btn-lg m-2" href="@Url.Action("FilterProducts", "Product")" role="button">Filter Products</a>
+                </div>
             }
         }
         else
         {
-            <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Login", "Account")" role="button">Login</a>
-            <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Register", "Account")" role="button">Register</a>
+            <div class="section">
+                <h2>Marketplace</h2>
+                <p>Explore our extensive marketplace of green energy and sustainable agriculture products. Find solutions that can help you enhance your farming practices while promoting sustainability.</p>
+                <a class="btn btn-success btn-lg m-2" href="@Url.Action("Index", "Marketplace")" role="button">Marketplace</a>
+            </div>
         }
-        <a class="btn btn-success btn-lg m-2" href="@Url.Action("Index", "Marketplace")" role="button">Marketplace</a>
-    </p>
+   
 </div>
+
+<style>
+    body {
+        background-color: #f0f8f5;
+    }
+
+    .navbar {
+        background-color: #2c3e50;
+    }
+
+    .navbar-brand, .nav-link {
+        color: #fff !important;
+    }
+
+        .nav-link:hover {
+            color: #d4edda !important;
+        }
+
+    footer {
+        background-color: #2c3e50;
+        color: white;
+        padding: 10px 0;
+    }
+
+        footer a {
+            color: #d4edda;
+        }
+
+    .lead, h4, ul {
+        text-align: left;
+    }
+
+    .lead {
+        margin-bottom: 20px;
+    }
+
+    .container {
+        background-color: #fafafa;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .btn-lg {
+        width: 100%;
+    }
+
+    .col-md-2 {
+        margin-bottom: 10px;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+        .section h2 {
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin-bottom: 10px;
+        }
+
+    .main-content {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>

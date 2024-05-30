@@ -166,37 +166,32 @@ namespace Part_2.Data
             }
         }
 
-        public async Task<IEnumerable<Product>> GetFilteredProductsAsync(DateTime? startDate, DateTime? endDate, string category)
+        public async Task<IEnumerable<Product>> GetFilteredProductsAsync(DateTime? startDate, DateTime? endDate, string category, int? farmerId)
         {
-            try
+            using (var connection = _context.CreateConnection())
             {
-                using (var connection = _context.CreateConnection())
+                var query = "SELECT * FROM Products WHERE 1=1";
+                if (startDate.HasValue)
                 {
-                    var sql = "SELECT * FROM Products WHERE 1=1";
-
-                    if (startDate.HasValue)
-                    {
-                        sql += " AND ProductionDate >= @StartDate";
-                    }
-
-                    if (endDate.HasValue)
-                    {
-                        sql += " AND ProductionDate <= @EndDate";
-                    }
-
-                    if (!string.IsNullOrEmpty(category))
-                    {
-                        sql += " AND Category = @Category";
-                    }
-
-                    return await connection.QueryAsync<Product>(sql, new { StartDate = startDate, EndDate = endDate, Category = category });
+                    query += " AND ProductionDate >= @StartDate";
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while retrieving the filtered products.", ex);
+                if (endDate.HasValue)
+                {
+                    query += " AND ProductionDate <= @EndDate";
+                }
+                if (!string.IsNullOrEmpty(category))
+                {
+                    query += " AND Category = @Category";
+                }
+                if (farmerId.HasValue)
+                {
+                    query += " AND FarmerId = @FarmerId";
+                }
+
+                return await connection.QueryAsync<Product>(query, new { StartDate = startDate, EndDate = endDate, Category = category, FarmerId = farmerId });
             }
         }
+
     }
 }
     

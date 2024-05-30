@@ -65,6 +65,11 @@ namespace Part_2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult FarmerDetails()
+        {
+            return View("Details", "Profile");
+        }
+
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -78,23 +83,28 @@ namespace Part_2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> FilterProducts(DateTime? startDate, DateTime? endDate, string category)
+        public async Task<IActionResult> FilterProducts(DateTime? startDate, DateTime? endDate, string category, int? farmerId)
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userRepository.GetUserByEmailAsync(userEmail);
             if (user != null && user.Role == "Employee")
             {
-                var products = await _productRepository.GetFilteredProductsAsync(startDate, endDate, category);
+                var products = await _productRepository.GetFilteredProductsAsync(startDate, endDate, category, farmerId);
                 var categories = await _productRepository.GetDistinctCategoriesAsync();
                 var farmers = await _userRepository.GetAllFarmersAsync();
 
                 ViewBag.Categories = new SelectList(categories);
-                ViewBag.Farmers = farmers.ToDictionary(f => f.Id, f => f.Name);
+                ViewBag.Farmers = new SelectList(farmers, "Id", "Name");
+                ViewBag.StartDate = startDate;
+                ViewBag.EndDate = endDate;
+                ViewBag.SelectedCategory = category;
+                ViewBag.SelectedFarmerId = farmerId;
 
                 return View(products);
             }
             return RedirectToAction("Index", "Home");
         }
+
 
         public async Task<IActionResult> Details(int id)
         {

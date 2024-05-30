@@ -15,6 +15,7 @@ namespace Part_2.Controllers
             _userRepository = userRepository;
         }
 
+       
         public async Task<IActionResult> Index()
         {
             var products = await _productRepository.GetAllWithFarmerAsync();
@@ -34,12 +35,7 @@ namespace Part_2.Controllers
 
         public async Task<IActionResult> FarmerDetails(int id)
         {
-            var farmer = await _userRepository.GetUserByIdAsync(id);
-            if (farmer == null || farmer.Role != "Farmer")
-            {
-                return NotFound();
-            }
-            return View(farmer);
+            return View("Details", "Profile");
         }
     }
 }
