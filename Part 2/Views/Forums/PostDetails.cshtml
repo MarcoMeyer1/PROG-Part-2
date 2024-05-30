@@ -1,0 +1,55 @@
+﻿@model Part_2.Models.PostDetailsViewModel
+
+@{
+    ViewData["Title"] = "Post Details";
+}
+
+<h1>@Model.Post.Title</h1>
+<p>@Model.Post.Content</p>
+<p><strong>Author:</strong> @Model.Post.User.Name</p>
+<p><strong>Created At:</strong> @Model.Post.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
+
+<h2>Replies</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Content</th>
+            <th>Author</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reply in Model.Replies)
+        {
+            <tr>
+                <td>@reply.Content</td>
+                <td>@reply.User.Name</td>
+                <td>@reply.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @if (User.IsInRole("Employee"))
+                    {
+                        <form asp-action="DeleteReply" method="post" style="display:inline;">
+                            <input type="hidden" name="replyId" value="@reply.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Reply to this Post</h2>
+<form asp-action="CreateReply" method="post">
+    <input type="hidden" name="postId" value="@Model.Post.Id" />
+    <div class="form-group">
+        <label for="content">Content</label>
+        <textarea id="content" name="content" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div>
+    <a asp-action="ForumDetails" asp-route-id="@Model.Post.ForumId" class="btn btn-primary">Back to Forum</a>
+</div>

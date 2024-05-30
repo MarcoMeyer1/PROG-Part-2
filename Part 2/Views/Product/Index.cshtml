@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Part_2.Models.Product>
+
+@{
+    ViewData["Title"] = "My Products";
+}
+
+<h2>My Products</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Production Date</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.ProductionDate.ToShortDateString()</td>
+                <td>@item.Price</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>

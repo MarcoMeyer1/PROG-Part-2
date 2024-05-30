@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Part_2.Models.Product>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Filter Products";
+}
+
+<h1>Filter Products</h1>
+
+<form method="get" asp-action="FilterProducts">
+    <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" name="category" class="form-control">
+            <option value="">All</option>
+            @foreach (var category in ViewBag.Categories as SelectList)
+            {
+                <option value="@category.Text">@category.Text</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Production Date</th>
+            <th>Price</th>
+            <th>Farmer</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.ProductionDate.ToShortDateString()</td>
+                <td>@item.Price</td>
+                <td>
+                    @if (ViewBag.Farmers.ContainsKey(item.FarmerId))
+                    {
+                        <a href="#">@ViewBag.Farmers[item.FarmerId]</a>
+                    }
+                    else
+                    {
+                        <span>Unknown Farmer</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

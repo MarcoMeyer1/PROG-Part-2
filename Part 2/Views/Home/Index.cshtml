@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Agri-Energy Connect</h1>
+    <p class="lead">Your platform for integrating renewable energy and sustainable agriculture.</p>
+    <hr class="my-4" />
+    <p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole("Farmer"))
+            {
+                <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Create", "Product")" role="button">Add Product</a>
+                <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Index", "Product")" role="button">View My Products</a>
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Create", "Farmer")" role="button">Add Farmer</a>
+                <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Index", "Farmer")" role="button">View Farmers</a>
+                <a class="btn btn-info btn-lg m-2" href="@Url.Action("AllProducts", "Product")" role="button">View All Products</a>
+                <a class="btn btn-warning btn-lg m-2" href="@Url.Action("FilterProducts", "Product")" role="button">Filter Products</a>
+            }
+        }
+        else
+        {
+            <a class="btn btn-primary btn-lg m-2" href="@Url.Action("Login", "Account")" role="button">Login</a>
+            <a class="btn btn-secondary btn-lg m-2" href="@Url.Action("Register", "Account")" role="button">Register</a>
+        }
+        <a class="btn btn-success btn-lg m-2" href="@Url.Action("Index", "Marketplace")" role="button">Marketplace</a>
+    </p>
+</div>

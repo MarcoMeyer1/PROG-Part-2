@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Part_2.Models.Forum>
+
+@{
+    ViewData["Title"] = "Forums";
+}
+
+<h1>Forums</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var forum in Model)
+        {
+            <tr>
+                <td>@forum.Title</td>
+                <td>@forum.Description</td>
+                <td>
+                    <a asp-action="ForumDetails" asp-route-id="@forum.Id" class="btn btn-info">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
