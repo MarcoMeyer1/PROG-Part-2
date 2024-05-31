@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Part_2.Data;
 using Part_2.Models;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -93,17 +94,23 @@ namespace Part_2.Controllers
                 var categories = await _productRepository.GetDistinctCategoriesAsync();
                 var farmers = await _userRepository.GetAllFarmersAsync();
 
-                ViewBag.Categories = new SelectList(categories);
-                ViewBag.Farmers = new SelectList(farmers, "Id", "Name");
-                ViewBag.StartDate = startDate;
-                ViewBag.EndDate = endDate;
-                ViewBag.SelectedCategory = category;
-                ViewBag.SelectedFarmerId = farmerId;
+                ViewBag.Categories = categories.Select(c => new SelectListItem
+                {
+                    Value = c,
+                    Text = c
+                }).ToList();
+
+                ViewBag.Farmers = farmers.Select(f => new SelectListItem
+                {
+                    Value = f.Id.ToString(),
+                    Text = f.Name
+                }).ToList();
 
                 return View(products);
             }
             return RedirectToAction("Index", "Home");
         }
+
 
 
         public async Task<IActionResult> Details(int id)
